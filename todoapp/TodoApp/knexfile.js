@@ -12,7 +12,7 @@ module.exports = {
       },
       migrations: {
         directory:'./db/migrations',
-        tableName: 'task'
+        tableName: 'tasks'
     }
     },
   
@@ -28,7 +28,7 @@ module.exports = {
         max: 10
       },
       migrations: {
-        tableName: 'task'
+        tableName: 'tasks'
       }
     },
   
@@ -44,7 +44,7 @@ module.exports = {
         max: 10
       },
       migrations: {
-        tableName: 'task'
+        tableName: 'tasks'
       }
     }
   

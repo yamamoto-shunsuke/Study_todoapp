@@ -22,6 +22,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
+// ルーティングの設定
+// app.use("/", require("./router.js"));
+// app.use("/todo", require("./router.js"));
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -39,3 +43,6 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+// サーバー起動
+//app.listen(3000);
