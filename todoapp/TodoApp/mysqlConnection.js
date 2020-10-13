@@ -1,11 +1,11 @@
-var mysql = require('mysql');
+// var mysql = require('mysql');
 
-var dbConfig = {
-  user: 'root',
-  password: '@atomitech12',
-  database: 'todoapp'
-};
+// var dbConfig = {
+//   user: 'root',
+//   password: '@atomitech12',
+//   database: 'todoapp'
+// };
 
-var connection = mysql.createConnection(dbConfig);
+// var connection = mysql.createConnection(dbConfig);
 
-module.exports = connection;
+// module.exports = connection;
