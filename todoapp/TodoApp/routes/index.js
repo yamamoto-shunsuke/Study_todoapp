@@ -4,9 +4,10 @@ var connection = require('../mysqlConnection'); // 追加
 var knex = require('knex')({
  client: 'mysql',
       connection: {
-        database: 'todoapp',
+        host : 'localhost',
         user:     'root',
         password: '@atomitech12',
+        database: 'todoapp'
   },
   useNullAsDefault: true
 });
@@ -25,7 +26,17 @@ router.post('/', function(req, res, next) { //フォーム情報をデータベ�
   //var query = 'INSERT INTO task (title, content) VALUES ("' + title + '", ' + '"' + content + '")';
   //var query = knex('task').returning('id').insert(title,content);
   //var query = knex('task').returning('id').insert({title: 'title',content: 'content'});
-  knex('task').returning('id').insert(title,content);
+  knex.insert({title,content: title,content})
+  .into('task')
+  .then(function(rows) {
+    console.log(rows[0]);
+  })
+  .catch(function(error) {
+    console.error(error)
+  });
+  // , {content: 'test'}
+  //knex.insert([{title: 'title'}, {content: 'content'}], ['id']).into('task');
+  //returning('id')↑knexとinsertの間
   //connection.query(query, function(err, rows) {
     res.redirect('/');
   //});
@@ -38,14 +49,26 @@ router.post('/', function(req, res, next) { //フォーム情報をデータベ�
 
 router.get('/todo', function(req, res, next) {
   //var query = 'SELECT * FROM task';
-  res.render("todo",knex.select().from('task'));
-  //connection.query(query, function(err, rows) {
+  //res.render("todo",knex.select('*').from('task'));
+  var query = knex.select('*').from('task') //.catch(function(error) {console.error(error)});
+  // knex
+  // .select('*')
+  // .from('task')
+  // .then(res.render('todo', function(rows) {
+  //   taskList: rows
+  // }))
+  // .catch(function(error) {
+  //   console.error(error)
+  // });
+   //connection.knex(query, function(err, rows) {
     //connection.query(query,function(err, rows) {
-    //res.redirect("/todo");
-    //res.render('todo', {
-      //title: 'Todoアプリ',
-      //taskList: rows
-    //});
+  //res.render("todo");
+  res.render("todo",function(err,rows) {
+  //var rows = knex.select('*').from('task') //.catch(function(error) {console.error(error)});
+  title: 'Todoアプリ'
+  taskList: knex.select('*').from('task')
+  console.log(knex.select('*').from('task'));
+  });
   //});
 });
 
