@@ -6,6 +6,10 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+//var boards = require('./routes/boards');
+var register = require('./routes/register'); // 追加
+
+//var todoRouter = require('./routes/todo');
 
 var app = express();
 
@@ -21,6 +25,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+// app.use('/todo', todoRouter);
+//app.use('/boards', boards);
+app.use('/register', register); // 追加
 
 // ルーティングの設定
 // app.use("/", require("./router.js"));

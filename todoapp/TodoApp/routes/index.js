@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var connection = require('../mysqlConnection'); // 追加
+//var connection = require('../mysqlConnection'); // 追加
 var knex = require('knex')({
   client: 'mysql',
   connection: {
@@ -36,7 +36,7 @@ router.post('/', function (req, res, next) { //フォーム情報をデータベ
     });
   // , {content: 'test'}
   //knex.insert([{title: 'title'}, {content: 'content'}], ['id']).into('task');
-  //returning('id')↑knexとinsertの間
+  //returning('id')
   //connection.query(query, function(err, rows) {
   res.redirect('/');
   //});
@@ -49,7 +49,6 @@ router.post('/', function (req, res, next) { //フォーム情報をデータベ
 
 //insertの時と同じように.thenと.catchを書き、.then内に正常処理 (DBから取得した結果をres.renderで渡す) を書いてください。
 router.get('/todo', function(req, res, next) {
-  console.log("----------------通過----------------");
   knex
   .select()
   .from('task')
@@ -81,7 +80,6 @@ router.get('/todo', function(req, res, next) {
 
 router.post('/todo', function (req, res, next) {
   var id = req.body.id;
-  console.log("--------------通過---------------");
   //var query = DELETE FROM task WHERE id=?;
   knex('task')
   .where('id',id)
@@ -106,5 +104,30 @@ router.post('/todo', function (req, res, next) {
 //     res.redirect('/todo');
 //   });
 // });
+// router.post('/todo', function (req, res, next) {
+
+// });
+
+// router.get('/', function(req, res, next) {
+//   res.render('register', {
+//     title: '新規会員登録'
+//   });
+// });
+
+// router.post('/', function(req, res, next) {
+//   var userName = req.body.username;
+//   var password = req.body.password;
+//   knex.insert({ username, password: username, password })
+//     .into('user')
+//     .then(function (rows) {
+//       res.redirect('/login');
+//       console.log(rows[0]);
+//     })
+//     .catch(function (error) {
+//       console.error(error)
+//     });
+// });
+
+
 
 module.exports = router;
