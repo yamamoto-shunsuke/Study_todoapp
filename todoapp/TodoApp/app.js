@@ -3,11 +3,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require('express-session'); // 追加
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 //var boards = require('./routes/boards');
-var register = require('./routes/register'); // 追加
+var signup = require('./routes/signup'); // 追加
+var signin = require('./routes/signin');　// 追加
 
 //var todoRouter = require('./routes/todo');
 
@@ -27,7 +29,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 // app.use('/todo', todoRouter);
 //app.use('/boards', boards);
-app.use('/register', register); // 追加
+app.use('/signup', signup); // 追加
+app.use('/signin', signin); // 追加
 
 // ルーティングの設定
 // app.use("/", require("./router.js"));
