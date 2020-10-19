@@ -26,7 +26,7 @@ router.post('/', function(req, res, next) {
   knex.insert({ username, password: username, password })
     .into('user')
     .then(function (rows) {
-      res.redirect('/signin');
+      res.redirect('/signup');
       console.log(rows[0]);
     })
     .catch(function (error) {

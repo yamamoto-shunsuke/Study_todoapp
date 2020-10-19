@@ -3,13 +3,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var session = require('express-session'); // 追加
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 //var boards = require('./routes/boards');
 var signup = require('./routes/signup'); // 追加
 var signin = require('./routes/signin');　// 追加
+//var passport = require('passport');//追加
+
+
 
 //var todoRouter = require('./routes/todo');
 
@@ -24,6 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+//app.use(passport.initialize());//追加
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
