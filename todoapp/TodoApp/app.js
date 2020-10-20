@@ -7,15 +7,16 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 //var boards = require('./routes/boards');
-var signup = require('./routes/signup'); // 追加
-var signin = require('./routes/signin');　// 追加
-//var passport = require('passport');//追加
-
+var signupRouter = require('./routes/signup'); // 追加
+var signinRouter = require('./routes/signin');　// 追加
+var passport = require('passport'); // 追記
+var session = require('express-session');//追加
 
 
 //var todoRouter = require('./routes/todo');
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,20 +33,26 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 // app.use('/todo', todoRouter);
 //app.use('/boards', boards);
-app.use('/signup', signup); // 追加
-app.use('/signin', signin); // 追加
+app.use('/signup', signupRouter); // 追加
+app.use('/signin', signinRouter); // 追加
+// app.use(express.static('public'));// 追加
+// app.use(express.bodyParser());// 追加
+// app.use(express.session({ secret: 'keyboard cat' }));// 追加
+// app.use(passport.initialize());// 追加
+app.use(passport.session());// 追加
+// app.use(app.router);// 追加
 
 // ルーティングの設定
 // app.use("/", require("./router.js"));
 // app.use("/todo", require("./router.js"));
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

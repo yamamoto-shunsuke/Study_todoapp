@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+
 //var connection = require('../mysqlConnection'); // 追加
 var knex = require('knex')({
   client: 'mysql',
@@ -127,7 +128,6 @@ router.post('/todo', function (req, res, next) {
 //       console.error(error)
 //     });
 // });
-
 
 
 module.exports = router;
