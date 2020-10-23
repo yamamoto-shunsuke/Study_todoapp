@@ -6,7 +6,7 @@ var knex = require('knex')({
   connection: {
     host: 'localhost',
     user: 'root',
-    password: '@atomitech12',
+    password: 'root',
     database: 'todoapp'
   },
   useNullAsDefault: true

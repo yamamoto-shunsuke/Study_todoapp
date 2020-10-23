@@ -38,7 +38,7 @@ app.use('/signin', signinRouter); // 追加
 // app.use(express.static('public'));// 追加
 // app.use(express.bodyParser());// 追加
 // app.use(express.session({ secret: 'keyboard cat' }));// 追加
-// app.use(passport.initialize());// 追加
+ app.use(passport.initialize());// 追加
 app.use(passport.session());// 追加
 // app.use(app.router);// 追加
 

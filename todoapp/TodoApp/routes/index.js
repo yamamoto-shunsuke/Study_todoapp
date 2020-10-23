@@ -1,13 +1,22 @@
 var express = require('express');
 var router = express.Router();
 
+
+var passport = require('passport');//追加
+router.use(passport.initialize());//追加
+LocalStrategy = require('passport-local').Strategy;//追加
+var flash = require('connect-flash');//追加
+router.use(flash());//追加
+router.use(passport.session());//追加
+
+
 //var connection = require('../mysqlConnection'); // 追加
 var knex = require('knex')({
   client: 'mysql',
   connection: {
     host: 'localhost',
     user: 'root',
-    password: '@atomitech12',
+    password: 'root',
     database: 'todoapp'
   },
   useNullAsDefault: true
@@ -16,8 +25,9 @@ var knex = require('knex')({
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
-  //res.render("index.ejs");
+  
+  
+  res.render("index.ejs");
 });
 
 
@@ -97,6 +107,20 @@ router.post('/todo', function (req, res, next) {
   //});
   //res.redirect('/todo');
 });
+
+
+
+
+router.get("/logout", function(req, res, next) {
+  req.session.destroy(function(err) {
+    if(err) {
+        console.log(err);
+    } else {
+       res.render("signin");
+    }
+});    
+});
+
 
 // router.post('/delete', function(req, res, next) {
 //   const id = req.body.id;

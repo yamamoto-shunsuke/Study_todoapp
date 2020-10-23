@@ -7,7 +7,7 @@ module.exports = {
       connection: {
         database: 'todoapp',
         user:     'root',
-        password: '@atomitech12',
+        password: 'root',
         //filename: './20201008103812_todoapp.js'
       },
       migrations: {
@@ -21,7 +21,7 @@ module.exports = {
       connection: {
         database: 'todoapp',
         user:     'root',
-        password: '@atomitech12'
+        password: 'root'
       },
       pool: {
         min: 2,
@@ -37,7 +37,7 @@ module.exports = {
       connection: {
         database: 'todoapp',
         user:     'root',
-        password: '@atomitech12'
+        password: 'root'
       },
       pool: {
         min: 2,
