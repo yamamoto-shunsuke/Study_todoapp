@@ -25,9 +25,11 @@ var knex = require('knex')({
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  
-  
+  if(req.session.username){
   res.render("index.ejs");
+  }else{
+    res.redirect("signin");
+  }
 });
 
 
@@ -47,6 +49,7 @@ router.post('/', function (req, res, next) { //フォーム情報をデータベ
 
 
 router.get('/todo', function(req, res, next) {
+  if(req.session.username){
   knex
   .select()
   .from('task')
@@ -57,6 +60,9 @@ router.get('/todo', function(req, res, next) {
   .catch(function(error) {
     console.error(error)
   });
+}else{
+  res.redirect("signin");
+}
 });
 
 
@@ -88,7 +94,7 @@ router.get("/logout", function(req, res, next) {
     if(err) {
         console.log(err);
     } else {
-       res.render("signin");
+       res.redirect("signin");
     }
 });    
 });

@@ -1,12 +1,15 @@
 var { authenticate } = require("./signincontrol.js");
-var router = require("express").Router();
+var express = require('express');
+var router = express.Router();
 
 
-router.get("/signin", (req, res) => {
+
+router.get("/", (req, res) => {
   res.render("signin", { message: req.flash("message") });
 });
 
-router.post("/signin", authenticate());
+router.post("/", authenticate());
+
 
 
 module.exports = router;
