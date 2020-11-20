@@ -11,6 +11,7 @@ var knex = require('knex')({
   },
   useNullAsDefault: true
 });
+const bcrypt = require("bcrypt");
 
 
 
@@ -20,10 +21,12 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.post('/', function(req, res, next) {
+router.post('/', async function(req, res, next) {
   var username = req.body.username;
   var password = req.body.password;
-  knex.insert({ username, password: username, password })
+  const hashedPassword = await bcrypt.hash(password, 10);
+  console.log(hashedPassword) 
+  knex.insert({ username: username, password: password})
     .into('user')
     .then(function (rows) {
       res.redirect('/');

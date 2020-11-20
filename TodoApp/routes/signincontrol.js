@@ -13,6 +13,7 @@ var knex = require('knex')({
   },
   useNullAsDefault: true
 });
+const bcrypt = require("bcrypt");
 
 passport.serializeUser((username, done) => {
   done(null, username);
@@ -36,7 +37,7 @@ passport.deserializeUser((username, done) => {
   //     // }).then(() => {
   //     //   client.close();
   //   });
- });
+});
 
 passport.use("local-strategy",
   new LocalStrategy({
@@ -48,39 +49,43 @@ passport.use("local-strategy",
     //knex記述処理
     //SQL文：select * from user where username = username, password = password;
     knex("user")
-      .where({ username, password: username, password })
-      .then(function(rows) {
-        if(rows.length != 0){
+      .where({ username: username})
+      .then(async function (rows) {
+        console.log(password);
+        console.log(rows[0].password);
+        const comparedPassword = await bcrypt.compare(password, rows[0].password);
+        console.log(comparedPassword);
+        if (comparedPassword) {
           req.session.username = username;
-          done(null,username);
-            // req.session.regenerate((err) => {
-            //   req.session.username = username;
-            // });
-        }else {
+          done(null, username);
+          // req.session.regenerate((err) => {
+          //   req.session.username = username;
+          // });
+        } else {
           done(null, false, req.flash("message", "ユーザー名 または パスワード が間違っています。"));
         }
       });
-    }));
-    
+  }));
 
-      // .then((user) => {
-      //   if (user) {
-      //     req.session.regenerate((error) => {
-      //       if (error) {
-      //         done(error);
-      //       } else {
-      //         done(null, user.username);
-      //       }
-      //     });
-      //   } else {
-      //     done(null, false, req.flash("message", "ユーザー名 または パスワード が間違っています。"));
-      //   }
-      // }).catch((error) => {
-      //   done(error);
-      // }).then(() => {
-      //   console.log(user);
-      //   client.close();
-      // });
+
+// .then((user) => {
+//   if (user) {
+//     req.session.regenerate((error) => {
+//       if (error) {
+//         done(error);
+//       } else {
+//         done(null, user.username);
+//       }
+//     });
+//   } else {
+//     done(null, false, req.flash("message", "ユーザー名 または パスワード が間違っています。"));
+//   }
+// }).catch((error) => {
+//   done(error);
+// }).then(() => {
+//   console.log(user);
+//   client.close();
+// });
 
 
 initialize = function () {
