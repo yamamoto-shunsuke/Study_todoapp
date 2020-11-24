@@ -1,34 +1,46 @@
 <html>
+
   <head>
     <title>TodoList</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <%- include('./header') %>
   </head>
+
   <body>
     <h1>TodoList</h1>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+      crossorigin="anonymous"></script>
   </body>
   <div class="wrapper">
     <div class="row">
-    <ul class="main-task">
-      <div class="col-md-6">
-      <% taskList.forEach(function(taskItem) { %>
-          <li class="main-list__task">
-              <div class="task">
-                  <p class="task__title"><%= taskItem.title %></p>
-                  <p class="task__content"><%= taskItem.content %></p>
-                  <form action="/todo" method="post">
-                    <input type="hidden" name="id" value="<%= taskItem.id %>">
-                    <input class="btn btn-primary" type="submit" value="削除"/>
-                  </form>
-              </div>
-          </li>
-      <% }); %>
-  </ul>
-</div>
-</div>
-</div>
+      <ul class="main-task">
+        <div class="col-md-6">
+          <% for(let i = 0; i < taskList.length; i++) { %>
+          <% if(user_id === taskList[i].user_id){ %>
+          <div class="task">
+            <li class="main-list__task">
+              <p class="task__title"><%= taskList[i].title %></p>
+              <p class="task__content"><%= taskList[i].content %></p>
+            </li>
+            <form action="/todo" method="post">
+              <input type="hidden" name="id" value="<%= taskList[i].id %>">
+              <input class="btn btn-primary" type="submit" value="削除" />
+            </form>
+          </div>
+          <% } %>
+          <% }; %>
+      </ul>
+    </div>
+  </div>
+  </div>
+
 </html>

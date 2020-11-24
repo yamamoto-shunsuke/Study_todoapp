@@ -23,20 +23,6 @@ passport.serializeUser((username, done) => {
 
 passport.deserializeUser((username, done) => {
   done(null, username);
-  //knex記述処理
-  //SQL文：select * from user where username = username;
-  // knex("user")
-  //     .where({ username: username})
-  //     //.then((user) => {
-  //     .then(function(rows) {
-  //       if(rows.length != 0){
-  //       done(null, username);
-  //       }
-  //     }).catch((error) => {
-  //       done(error);
-  //     // }).then(() => {
-  //     //   client.close();
-  //   });
 });
 
 passport.use("local-strategy",
@@ -46,46 +32,20 @@ passport.use("local-strategy",
     passReqToCallback: true
   }, (req, username, password, done) => {
 
-    //knex記述処理
-    //SQL文：select * from user where username = username, password = password;
     knex("user")
-      .where({ username: username})
+      .where({ username: username })
       .then(async function (rows) {
-        console.log(password);
-        console.log(rows[0].password);
+        req.session.user_id = rows[0].id;
         const comparedPassword = await bcrypt.compare(password, rows[0].password);
-        console.log(comparedPassword);
         if (comparedPassword) {
           req.session.username = username;
           done(null, username);
-          // req.session.regenerate((err) => {
-          //   req.session.username = username;
-          // });
         } else {
           done(null, false, req.flash("message", "ユーザー名 または パスワード が間違っています。"));
         }
       });
   }));
 
-
-// .then((user) => {
-//   if (user) {
-//     req.session.regenerate((error) => {
-//       if (error) {
-//         done(error);
-//       } else {
-//         done(null, user.username);
-//       }
-//     });
-//   } else {
-//     done(null, false, req.flash("message", "ユーザー名 または パスワード が間違っています。"));
-//   }
-// }).catch((error) => {
-//   done(error);
-// }).then(() => {
-//   console.log(user);
-//   client.close();
-// });
 
 
 initialize = function () {

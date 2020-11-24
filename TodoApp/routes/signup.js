@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-//var connection = require('../mysqlConnection'); // 追加
 var knex = require('knex')({
   client: 'mysql',
   connection: {
@@ -25,8 +24,8 @@ router.post('/', async function(req, res, next) {
   var username = req.body.username;
   var password = req.body.password;
   const hashedPassword = await bcrypt.hash(password, 10);
-  console.log(hashedPassword) 
-  knex.insert({ username: username, password: password})
+  console.log(hashedPassword);
+  knex.insert({ username: username, password: hashedPassword})
     .into('user')
     .then(function (rows) {
       res.redirect('/');

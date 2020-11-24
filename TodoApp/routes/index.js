@@ -1,16 +1,13 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
+router.use(passport.initialize());
+LocalStrategy = require('passport-local').Strategy;
+var flash = require('connect-flash');
+router.use(flash());
+router.use(passport.session());
 
 
-var passport = require('passport');//追加
-router.use(passport.initialize());//追加
-LocalStrategy = require('passport-local').Strategy;//追加
-var flash = require('connect-flash');//追加
-router.use(flash());//追加
-router.use(passport.session());//追加
-
-
-//var connection = require('../mysqlConnection'); // 追加
 var knex = require('knex')({
   client: 'mysql',
   connection: {
@@ -25,21 +22,20 @@ var knex = require('knex')({
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  if(req.session.username){
-  res.render("index",{username: req.session.username});
-  }else{
-    res.render("signin",{message: req.flash("message"),username: req.session.username});
+  if (req.session.username) {
+    res.render("index", { username: req.session.username });
+  } else {
+    res.render("signin", { message: req.flash("message"), username: req.session.username });
   }
 });
 
-
-router.post('/', function (req, res, next) { //フォーム情報をデータベースへ追加。
+router.post('/', function (req, res, next) { 
   var title = req.body.title;
   var content = req.body.content;
-  knex.insert({ title, content: title, content })
+  knex.insert({ title: title, content: content, user_id: req.session.user_id })
     .into('task')
     .then(function (rows) {
-      console.log(rows[0]);
+      console.log(rows);
     })
     .catch(function (error) {
       console.error(error)
@@ -47,22 +43,21 @@ router.post('/', function (req, res, next) { //フォーム情報をデータベ
   res.redirect('/');
 });
 
-
-router.get('/todo', function(req, res, next) {
-  if(req.session.username){
-  knex
-  .select()
-  .from('task')
-  .then(function(rows) {
-    res.render("todo",{title: "TODOアプリ",taskList: rows,username: req.session.username})
-    console.log(rows);
-  })
-  .catch(function(error) {
-    console.error(error)
-  });
-}else{
-  res.redirect("signin",{username: req.session.username});
-}
+/*get処理はuserテーブルのidとtaskテーブルのuser_idをinnerjoinで内部結合で一致した情報を取り出す形にする。*/
+router.get('/todo', function (req, res, next) {
+  if (req.session.username) {
+    knex
+      .from('user')
+      .innerJoin('task', 'user.id', 'task.user_id')
+      .then(function (rows) {
+        res.render("todo", { title: "TODOアプリ", taskList: rows, username: req.session.username, user_id: req.session.user_id })
+      })
+      .catch(function (error) {
+        console.error(error)
+      });
+  } else {
+    res.redirect("signin", { username: req.session.username });
+  }
 });
 
 
@@ -71,32 +66,28 @@ router.post('/todo', function (req, res, next) {
   var id = req.body.id;
   //var query = DELETE FROM task WHERE id=?;
   knex('task')
-  .where('id',id)
-  .del()
-  .then(function(rows){
-    console.log(rows);
-    res.redirect('/todo');
-  })
-  .catch(function(error) {
-    console.error(error)
-  });
-  //connection.query(query, function (error, results, fields) {
-  //if (error) throw error;
-  //});
-  //res.redirect('/todo');
+    .where('id', id)
+    .del()
+    .then(function (rows) {
+      console.log(rows);
+      res.redirect('/todo');
+    })
+    .catch(function (error) {
+      console.error(error)
+    });
 });
 
 
 
 
-router.get("/logout", function(req, res, next) {
-  req.session.destroy(function(err) {
-    if(err) {
-        console.log(err);
+router.get("/logout", function (req, res, next) {
+  req.session.destroy(function (err) {
+    if (err) {
+      console.log(err);
     } else {
-       res.redirect("/");
+      res.redirect("/");
     }
-});    
+  });
 });
 
 

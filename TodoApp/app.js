@@ -6,14 +6,14 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var signupRouter = require('./routes/signup'); // 追加
-var signinRouter = require('./routes/signin');　// 追加
-var signincontrolRouter = require('./routes/signincontrol');//追加
-var passport = require('passport'); // 追記
-var session = require('express-session');//追加
-var flash = require("connect-flash");//追加
-var bodyParser = require("body-parser");//追加
-var cookieParser = require("cookie-parser");//追加
+var signupRouter = require('./routes/signup');
+var signinRouter = require('./routes/signin');
+var signincontrolRouter = require('./routes/signincontrol');
+var passport = require('passport');
+var session = require('express-session');
+var flash = require("connect-flash");
+var bodyParser = require("body-parser");
+var cookieParser = require("cookie-parser");
 var app = express();
 var sessionStore = new session.MemoryStore;
 
@@ -38,16 +38,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(flash());//追加
+app.use(flash());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/signup', signupRouter); // 追加
-app.use('/signin', signinRouter); // 追加
-app.use(...signincontrolRouter.initialize());//配列をカンマ区切りで割り当て
+app.use('/signup', signupRouter); 
+app.use('/signin', signinRouter); 
+app.use(...signincontrolRouter.initialize());
 app.use(bodyParser.json());
-app.use(passport.initialize());// 追加
-app.use(passport.session());// 追加
+app.use(passport.initialize());
+app.use(passport.session());
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
